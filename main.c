@@ -26,6 +26,13 @@ typedef struct
     ITEM *cur_item;
 } FMGR_STATE;
 
+/* Utility function that prints a centered title at the top of an nCurses
+ * window.
+ *
+ * win   - The nCurses window on which to print a title.
+ * width - The width of the nCurses window.
+ * title - The title to be printed.
+ */
 void
 fmgr_print_title(WINDOW *win, int width, char *title) {
     mvwaddstr(win, 0, (width / 2) - (strlen(title) / 2), title);
@@ -34,6 +41,11 @@ fmgr_print_title(WINDOW *win, int width, char *title) {
     return;
 }
 
+/* Initializes an FMGR_STATE struct.
+ * Memory management is left to the caller.
+ *
+ * state - The FMGR_STATE struct to initialize.
+ */
 int
 fmgr_setup(FMGR_STATE *state)
 {
@@ -81,6 +93,12 @@ fmgr_setup(FMGR_STATE *state)
     return 0;
 }
 
+/* Allocates memory for a list of filenames.
+ * Typically called to create a list to pass to the fmgr_fm_ls() function.
+ * Uses MAX_FNAME_SIZE defined in files.h.
+ *
+ * size - The max number of names to allocate.
+ */
 char**
 fmgr_flist_create(int size)
 {
@@ -95,6 +113,12 @@ fmgr_flist_create(int size)
     return flist;
 }
 
+/* Frees memory associated with a list created with fmgr_flist_create.
+ *
+ * flist - The flist to free.
+ * size  - The size of flist as given to fmgr_flist_create when the list was
+ *         created.
+ */
 void
 fmgr_flist_destroy(char **flist, int size)
 {
@@ -106,6 +130,8 @@ fmgr_flist_destroy(char **flist, int size)
     free(flist);
 }
 
+/* The main function.
+ */
 int
 main(int argc, char *argv[])
 {
