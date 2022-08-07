@@ -5,10 +5,10 @@ CFLAGS=-c -Wall
 all: main.o files.o
 	$(CC) $^ $(LFLAGS) -o fmgr
 
-main.o: main.c files.h
+main.o: main.c fmgr.h
 	$(CC) $(CFLAGS) $< -o $@
 
-files.o: files.c files.h
+files.o: files.c fmgr.h
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:

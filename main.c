@@ -9,7 +9,7 @@
 #include <curses.h>
 #include <panel.h>
 #include <menu.h>
-#include "files.h"
+#include "fmgr.h"
 
 typedef struct
 {
@@ -91,43 +91,6 @@ fmgr_setup(FMGR_STATE *state)
     fmgr_print_title(stdscr, COLS, "FMGR v0.1");
 
     return 0;
-}
-
-/* Allocates memory for a list of filenames.
- * Typically called to create a list to pass to the fmgr_fm_ls() function.
- * Uses MAX_FNAME_SIZE defined in files.h.
- *
- * size - The max number of names to allocate.
- */
-char**
-fmgr_flist_create(int size)
-{
-    int i;
-    char **flist;
-    
-    flist = calloc(size, sizeof *flist);
-    for (i = 0; i < size; i++) {
-        flist[i] = calloc(MAX_FNAME_SIZE, 1);
-    }
-
-    return flist;
-}
-
-/* Frees memory associated with a list created with fmgr_flist_create.
- *
- * flist - The flist to free.
- * size  - The size of flist as given to fmgr_flist_create when the list was
- *         created.
- */
-void
-fmgr_flist_destroy(char **flist, int size)
-{
-    int i;
-
-    for (i = 0; i < size; i++) {
-        free(flist[i]);
-    }
-    free(flist);
 }
 
 /* The main function.
