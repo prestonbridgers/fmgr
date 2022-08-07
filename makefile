@@ -2,13 +2,16 @@ CC=gcc
 LFLAGS=-lncurses -lpanel -lmenu
 CFLAGS=-c -Wall
 
-all: main.o files.o
+all: main.o files.o util.o
 	$(CC) $^ $(LFLAGS) -o fmgr
 
 main.o: main.c fmgr.h
 	$(CC) $(CFLAGS) $< -o $@
 
 files.o: files.c fmgr.h
+	$(CC) $(CFLAGS) $< -o $@
+
+util.o: util.c fmgr.h
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:

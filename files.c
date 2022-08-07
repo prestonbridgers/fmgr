@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <string.h>
+#include <curses.h>
 #include "fmgr.h"
 
 /* Allocates memory for a list of filenames.

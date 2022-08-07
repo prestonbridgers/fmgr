@@ -26,21 +26,6 @@ typedef struct
     ITEM *cur_item;
 } FMGR_STATE;
 
-/* Utility function that prints a centered title at the top of an nCurses
- * window.
- *
- * win   - The nCurses window on which to print a title.
- * width - The width of the nCurses window.
- * title - The title to be printed.
- */
-void
-fmgr_print_title(WINDOW *win, int width, char *title) {
-    mvwaddstr(win, 0, (width / 2) - (strlen(title) / 2), title);
-    mvwchgat(win, 0, width / 2 - strlen(title) / 2, strlen(title),
-            A_BOLD | A_UNDERLINE, 0, NULL);
-    return;
-}
-
 /* Initializes an FMGR_STATE struct.
  * Memory management is left to the caller.
  *
