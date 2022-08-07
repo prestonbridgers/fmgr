@@ -1,6 +1,6 @@
 CC=gcc
 LFLAGS=-lncurses -lpanel -lmenu
-CFLAGS=-c -Wall
+CFLAGS=-g -c -Wall
 
 all: main.o files.o util.o
 	$(CC) $^ $(LFLAGS) -o fmgr
