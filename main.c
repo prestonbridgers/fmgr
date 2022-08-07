@@ -11,21 +11,6 @@
 #include <menu.h>
 #include "fmgr.h"
 
-typedef struct
-{
-    WINDOW *win_nav;
-    WINDOW *win_preview;
-    WINDOW *win_footer;
-
-    PANEL *pan_nav;
-    PANEL *pan_preview;
-    PANEL *pan_footer;
-
-    MENU *menu;
-    ITEM **items;
-    ITEM *cur_item;
-} FMGR_STATE;
-
 /* Initializes an FMGR_STATE struct.
  * Memory management is left to the caller.
  *

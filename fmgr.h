@@ -3,6 +3,25 @@
 
 #define MAX_FNAME_SIZE 64
 
+#include <curses.h>
+#include <panel.h>
+#include <menu.h>
+
+typedef struct
+{
+    WINDOW *win_nav;
+    WINDOW *win_preview;
+    WINDOW *win_footer;
+
+    PANEL *pan_nav;
+    PANEL *pan_preview;
+    PANEL *pan_footer;
+
+    MENU *menu;
+    ITEM **items;
+    ITEM *cur_item;
+} FMGR_STATE;
+
 /* BEGIN files.c */
 int    fmgr_fm_ls(char **list_entries, int size, char *dirname);
 char** fmgr_flist_create(int size);
