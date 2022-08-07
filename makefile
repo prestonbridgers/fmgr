@@ -22,4 +22,4 @@ run:
 	@./fmgr
 
 memcheck:
-	@valgrind --leak-check=full ./fmgr	
+	@valgrind --leak-check=full --show-leak-kinds=all -s ./fmgr 2> err.log
