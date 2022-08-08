@@ -16,15 +16,15 @@
  *
  * size - The max number of names to allocate.
  */
-char**
+struct dirent**
 fmgr_flist_create(int size)
 {
     int i;
-    char **flist;
+    struct dirent **flist;
     
     flist = calloc(size, sizeof *flist);
     for (i = 0; i < size; i++) {
-        flist[i] = calloc(MAX_FNAME_SIZE, 1);
+        flist[i] = calloc(1, sizeof **flist);
     }
 
     return flist;
@@ -37,14 +37,15 @@ fmgr_flist_create(int size)
  *         created.
  */
 void
-fmgr_flist_destroy(char **flist, int size)
+fmgr_flist_destroy(struct dirent **flist, int size)
 {
-    int i;
+    /* int i; */
 
-    for (i = 0; i < size; i++) {
-        free(flist[i]);
-    }
-    free(flist);
+    /* for (i = 0; i < size; i++) { */
+    /*     free(flist[i]); */
+    /* } */
+    /* free(flist); */
+    return;
 }
 
 /* Populates a list of strings created by fmgr_flist_create with the filenames
@@ -58,7 +59,7 @@ fmgr_flist_destroy(char **flist, int size)
  * dirname      - The path to the directory to list.
  */
 int
-fmgr_fm_ls(char **list_entries, int size, char *dirname)
+fmgr_fm_ls(struct dirent **list_entries, int size, char *dirname)
 {
 	DIR *d;
     struct dirent *dir;
@@ -71,7 +72,8 @@ fmgr_fm_ls(char **list_entries, int size, char *dirname)
 
     count = 0;
     while ((dir = readdir(d)) != NULL) {
-        strncpy(list_entries[count], dir->d_name, MAX_FNAME_SIZE);
+        memcpy(list_entries[count], dir, sizeof (struct dirent));
+        /* list_entries[count] = dir; */
         count++;
     }
 

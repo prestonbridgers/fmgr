@@ -6,6 +6,7 @@
 #include <curses.h>
 #include <panel.h>
 #include <menu.h>
+#include <dirent.h>
 
 typedef struct
 {
@@ -23,9 +24,9 @@ typedef struct
 } FMGR_STATE;
 
 /* BEGIN files.c */
-int    fmgr_fm_ls(char **list_entries, int size, char *dirname);
-char** fmgr_flist_create(int size);
-void   fmgr_flist_destroy(char **flist, int size);
+int    fmgr_fm_ls(struct dirent **list_entries, int size, char *dirname);
+struct dirent** fmgr_flist_create(int size);
+void   fmgr_flist_destroy(struct dirent **flist, int size);
 /* END files.c */
 
 

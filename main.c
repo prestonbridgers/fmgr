@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 #include <curses.h>
 #include <panel.h>
 #include <menu.h>
@@ -19,7 +20,7 @@
  * flist_size - The size of the flist given.
  */
 int
-fmgr_setup(FMGR_STATE *state, char **flist, int flist_size)
+fmgr_setup(FMGR_STATE *state, struct dirent **flist, int flist_size)
 {
     int h_nav, h_preview, h_footer;
     int w_nav, w_preview, w_footer;
@@ -73,7 +74,16 @@ fmgr_setup(FMGR_STATE *state, char **flist, int flist_size)
     // Creating ITEMs and MENU from flist
     state->items = calloc(flist_size + 1, sizeof *state->items);
     for (i = 0; i < flist_size; i++) {
-        state->items[i] = new_item(flist[i], "");
+        /* char *tmp = malloc((MAX_FNAME_SIZE + 5) * sizeof *tmp); */
+        /* memcpy(tmp, flist[i]->d_name, strlen(flist[i]->d_name)); */
+        /* if (flist[i]->d_type == 4) { */
+        /*     strcat(tmp, " d"); */
+        /* } else { */
+        /*     strcat(tmp, " f"); */
+        /* } */
+        /* if (tmp[0] != ' ') */
+        /*     state->items[i] = new_item(tmp, ""); */
+        state->items[i] = new_item(flist[i]->d_name, "");
     }
     state->items[i] = (ITEM *) NULL;
 
@@ -97,7 +107,7 @@ main(int argc, char *argv[])
     // Variables
     FMGR_STATE *state = malloc(sizeof *state);
     int flist_size = 20;
-    char **flist = fmgr_flist_create(flist_size);
+    struct dirent **flist = fmgr_flist_create(flist_size);
     int c;
 
     // Getting a list of files
@@ -112,11 +122,6 @@ main(int argc, char *argv[])
     // Update stdscr
     update_panels();
     doupdate();
-
-    /* for (int i = 0; i < flist_size; i++) { */
-    /*     if (flist[i][0] != '\0') */
-    /*         printf("%s\n", flist[i]); */
-    /* } */
 
     while ((c = getch()) != 'q') {
         switch (c) {
@@ -135,8 +140,8 @@ main(int argc, char *argv[])
     }
 
     endwin();
-    fmgr_flist_destroy(flist, flist_size);
-    free(state);
+    /* fmgr_flist_destroy(flist, flist_size); */
+    /* free(state); */
     return EXIT_SUCCESS;	
 }
 
