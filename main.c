@@ -12,6 +12,18 @@
 #include <menu.h>
 #include "fmgr.h"
 
+/* Function is set as the user pointer for each file/directory in the nav
+ * menu. When a selection is made, this function is called as a result.
+ *
+ * dir - The directory or filename of the selected entry.
+ */
+void
+fmgr_nav_selected(char *dir)
+{
+    fprintf(stderr, "Selected: %s\n", dir);
+    return;
+}
+
 /* Initializes an FMGR_STATE struct.
  * Memory management is left to the caller.
  *
@@ -69,7 +81,8 @@ fmgr_setup(FMGR_STATE *state, struct dirent **flist, int flist_size)
     fmgr_print_title(stdscr, COLS, "FMGR v0.1");
 
     // Drawing hotkeys
-    mvwaddstr(state->win_footer, 1, 1, "'q' to Exit | Etc...");
+    mvwaddstr(state->win_footer, 1, 1, "'q' to Exit | 'hjkl' keys to navigate "
+                                       "| Etc...");
 
     // Creating ITEMs and MENU from flist
     state->items = calloc(flist_size + 1, sizeof *state->items);
@@ -84,6 +97,7 @@ fmgr_setup(FMGR_STATE *state, struct dirent **flist, int flist_size)
         /* if (tmp[0] != ' ') */
         /*     state->items[i] = new_item(tmp, ""); */
         state->items[i] = new_item(flist[i]->d_name, "");
+        set_item_userptr(state->items[i], fmgr_nav_selected);
     }
     state->items[i] = (ITEM *) NULL;
 
@@ -131,6 +145,17 @@ main(int argc, char *argv[])
             case 'k':
                 menu_driver(state->menu, REQ_UP_ITEM);
                 break;
+            case 'l': /* Enter */
+                {
+                    ITEM *cur;
+                    void (*p)(char *);
+
+                    cur = current_item(state->menu);
+                    p = item_userptr(cur);
+                    p((char *)item_name(cur));
+                    pos_menu_cursor(state->menu);
+                    break;
+                }
             default:
                 break;
         }

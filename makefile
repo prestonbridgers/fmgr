@@ -19,7 +19,7 @@ clean:
 	rm fmgr
 	
 run:
-	@./fmgr
+	@./fmgr 2> err.log
 
 memcheck:
 	@valgrind --leak-check=full --show-leak-kinds=all -s ./fmgr 2> err.log
